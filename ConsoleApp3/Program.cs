@@ -57,8 +57,8 @@ string negativeDecimalToBinary(int decimalNum)
 }
 int binaryToDecimal(string binaryText)
 {
-    if (binaryText.Length < 5)
-        throw new Exception("Size binaryText less than 5");
+    if (binaryText.Length <= 1)
+        throw new Exception("Incorrect length (<= 1)");
 
     int result = 0;
 
@@ -74,6 +74,80 @@ int binaryToDecimal(string binaryText)
     return binaryText.First() == '0' ? result : (result + 1) * -1;
 }
 
+int sumBinaryNumbersFunc(string firstBinary, string secondBinary)
+{
+    if (firstBinary == secondBinary)
+        return binaryToDecimal(firstBinary) * 2;
+
+    return binaryToDecimal(firstBinary) + binaryToDecimal(secondBinary);
+}
+
+#region Sum
+void checkSizeText(ref string checkText, int size)
+{
+    if (checkText.Length < size)
+        checkText = checkText.Insert(0, checkText.First().ToString());
+}
+void lengthEqualization(ref string firstBinary, ref string secondBinary)
+{
+    if (firstBinary == secondBinary)
+        return;
+
+    int maxSize = firstBinary.Length > secondBinary.Length ? firstBinary.Length : secondBinary.Length;
+    int minSize = firstBinary.Length < secondBinary.Length ? firstBinary.Length : secondBinary.Length;
+
+    for (int i = minSize + 1; i <= maxSize; i++)
+    {
+        checkSizeText(ref firstBinary, maxSize);
+        checkSizeText(ref secondBinary, maxSize);
+    }
+}
+char resultAddingBits(int index, ref int numberMind, ref string firstBinary, ref string secondBinary)
+{
+    if (numberMind == 1)
+    {
+        if (firstBinary[index] == '1' && secondBinary[index] == '1')
+            return '1';
+        if (firstBinary[index] == '0' && secondBinary[index] == '0')
+        {
+            numberMind = 0;
+            return '1';
+        }
+        else
+            return '0';
+    }
+    else if (numberMind == 0)
+    {
+        if (firstBinary[index] == '1' && secondBinary[index] == '1')
+        {
+            numberMind = 1;
+            return '0';
+        }
+        if (firstBinary[index] == '0' && secondBinary[index] == '0')
+            return '0';
+        else
+            return '1';
+    }
+    else
+        throw new Exception("numberMind Error value!");
+}
+int sumBinaryNumbers(string firstBinary, string secondBinary)
+{
+    if(firstBinary.Length <= 1 || secondBinary.Length <= 1)
+        throw new Exception("Incorrect firstBinary or secondBinary length (<= 1)");
+
+    string result = "";
+    int numberMind = 0;
+    lengthEqualization(ref firstBinary, ref secondBinary);
+
+    for(int i = firstBinary.Length - 1; i >= 0; i--)
+    {
+        result = result.Insert(0, resultAddingBits(i, ref numberMind, ref firstBinary, ref secondBinary).ToString());
+    }
+
+    return binaryToDecimal(result);
+}
+#endregion
 string convertDecimalFractionToBinary(double decimalFraction, int precision)
 {
     string result = "0.";
@@ -102,7 +176,11 @@ try
 {
     Console.WriteLine(positiveDecimalToBinary(105));
     Console.WriteLine(negativeDecimalToBinary(-105));
-    Console.WriteLine(binaryToDecimal("10000000"));
+    Console.WriteLine($"Manual sum: {sumBinaryNumbers("0000000000001101", "111011")}");
+    Console.WriteLine($"Func sum: {sumBinaryNumbersFunc("0000000000001101", "111011")}");
+    Console.WriteLine(binaryToDecimal("1111111111111011"));
+    Console.WriteLine(binaryToDecimal("01101"));
+    Console.WriteLine(binaryToDecimal("00010111"));
     Console.WriteLine(convertDecimalFractionToBinary(0.421, 4));
 }catch(Exception e)
 {

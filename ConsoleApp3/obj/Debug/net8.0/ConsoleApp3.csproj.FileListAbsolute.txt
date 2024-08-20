@@ -12,3 +12,4 @@ D:\C++ проекты\ConsoleApp3\ConsoleApp3\obj\Debug\net8.0\refint\ConsoleApp
 D:\C++ проекты\ConsoleApp3\ConsoleApp3\obj\Debug\net8.0\ConsoleApp3.pdb
 D:\C++ проекты\ConsoleApp3\ConsoleApp3\obj\Debug\net8.0\ConsoleApp3.genruntimeconfig.cache
 D:\C++ проекты\ConsoleApp3\ConsoleApp3\obj\Debug\net8.0\ref\ConsoleApp3.dll
+D:\C++ проекты\ConsoleApp3\ConsoleApp3\obj\Debug\net8.0\ConsoleApp3.sourcelink.json
